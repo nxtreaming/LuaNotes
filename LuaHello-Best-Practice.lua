@@ -12,12 +12,16 @@ local name = "John"
 local age = 25
 local height = 1.75
 local isStudent = true
+local x = nil
 
 print("\n=== Variable Examples ===")
 print("Name: " .. name)
 print("Age: " .. age)
 print("Height: " .. height .. " meters")
 print("Is Student: " .. tostring(isStudent))
+if x == nil then
+    print("x is nil")
+end
 
 -- 3. Function definition (BEST PRACTICE: Use 'local' for functions)
 -- This avoids the "Global variable in lowercase initial" warning
@@ -55,6 +59,14 @@ local function factorial2(n)
          return n * factorial2(n - 1)
      end
  end
+
+ local function minmax(a, b)
+    if a < b then
+        return a, b
+    else
+        return b, a
+    end
+end
 
 print("\n=== Function Examples ===")
 print(greet(name))
@@ -106,6 +118,9 @@ else
     print("Grade: Needs Improvement")
 end
 
+local min, max = minmax(10, 20)
+print("\nMin: " .. min .. ", Max: " .. max)
+
 -- 5. Loop examples
 print("\n=== Loop Examples ===")
 
@@ -114,6 +129,14 @@ print("Numbers 1 to 5:")
 for i = 1, 5 do
     print("  " .. i)
 end
+
+local sum = 0;
+for i = 1, 100 do
+    if i % 2 == 0 then
+        sum = sum + i
+    end
+end
+print("\nSum of even numbers from 1 to 100: " .. sum)
 
 -- repeat-until loop
 local k = 10
@@ -195,6 +218,13 @@ print("\n=== Mathematical Operation Examples ===")
 local x = 10
 local y = 3
 
+if x ~= y then
+    print("x is not equal to y")
+end
+
+-- true
+print(5 > 3 and true or false)
+
 print("x = " .. x .. ", y = " .. y)
 print("Addition: " .. x .. " + " .. y .. " = " .. (x + y))
 print("Subtraction: " .. x .. " - " .. y .. " = " .. (x - y))
@@ -211,6 +241,16 @@ for i = 1, 10 do
     random_arr[i] = math.random(1, 100)
 end
 print("Random array: " .. table.concat(random_arr, ", "))
+
+-- table is reference type
+local random_arr2 = random_arr
+random_arr2[1] = -1
+
+print("Random array 2: " .. table.concat(random_arr2, ", "))
+print("Random array: " .. table.concat(random_arr, ", "))
+
+-- z is nil
+print(z)
 
 -- 9. Best practices explanation
 print("\n=== Lua Best Practices Demonstrated ===")
