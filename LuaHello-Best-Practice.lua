@@ -31,7 +31,7 @@ end
 
 local function divide(a, b)
     if b == 0 then
-        return nil,"Error: Division by zero"
+        return nil, "Error: Division by zero"
     else
         return a / b, nil
     end
@@ -72,7 +72,7 @@ end
 
 result, err = divide(10, 0)
 if err then
-    print(err)
+    print("10 / 0 = " .. err)
 else
     print("10 / 0 = " .. result)
 end
@@ -86,6 +86,16 @@ else
 end
 
 local score = 85
+if (score >= 85) then
+    print("Score: " .. score .. " - Excellent")
+end
+
+-- local grade = "A"
+-- type mismatch error: "attempt to compare number with string"
+-- if grade >= 90 then
+--    print("Grade: A - Excellent")
+-- end
+
 if score >= 90 then
     print("Grade: Excellent")
 elseif score >= 80 then
@@ -104,6 +114,14 @@ print("Numbers 1 to 5:")
 for i = 1, 5 do
     print("  " .. i)
 end
+
+-- repeat-until loop
+local k = 10
+print("Countdown from 10 to 1:")
+repeat
+    print(" " .. k)
+    k = k - 1
+until k < 1
 
 -- while loop
 print("Countdown:")
@@ -124,6 +142,18 @@ for i, fruit in ipairs(fruits) do
     print("  " .. i .. ". " .. fruit)
 end
 
+-- the start index is from 1, not 0
+local fruits_count = #fruits
+print("\nNumber of fruits: " .. fruits_count)
+for i = 1, fruits_count do
+    print("  " .. i .. ". " .. fruits[i])
+end
+if fruits[0] == nil then
+    print("The element at index of 0 is nil")
+else
+    print("The element at index of 0 is: " .. fruits[0])
+end
+
 -- Dictionary-style table
 local person = {
     name = "Alice",
@@ -135,6 +165,17 @@ local person = {
 print("\nPerson information:")
 for key, value in pairs(person) do
     print("  " .. key .. ": " .. value)
+end
+
+local keys = {}
+for key, _ in pairs(person) do
+    table.insert(keys, key)
+end
+table.sort(keys)
+
+print("\nPerson information after sorting:")
+for i = 1, #keys do
+    print("  " .. keys[i] .. ": " .. person[keys[i]])
 end
 
 -- 7. String operations
@@ -164,6 +205,12 @@ print("Exponentiation: " .. x .. " ^ " .. y .. " = " .. (x ^ y))
 
 print("Square root: sqrt(" .. x .. ") = " .. math.sqrt(x))
 print("Random number: " .. math.random(1, 100))
+
+local random_arr = {}
+for i = 1, 10 do
+    random_arr[i] = math.random(1, 100)
+end
+print("Random array: " .. table.concat(random_arr, ", "))
 
 -- 9. Best practices explanation
 print("\n=== Lua Best Practices Demonstrated ===")
