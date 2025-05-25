@@ -29,6 +29,14 @@ local function add(a, b)
     return a + b
 end
 
+local function divide(a, b)
+    if b == 0 then
+        return nil,"Error: Division by zero"
+    else
+        return a / b, nil
+    end
+end
+
 -- For recursive functions, declare first, then define
 local factorial
 factorial = function(n)
@@ -40,18 +48,34 @@ factorial = function(n)
 end
 
 -- Alternative syntax for local recursive function:
--- local function factorial(n)
---     if n <= 1 then
---         return 1
---     else
---         return n * factorial(n - 1)
---     end
--- end
+local function factorial2(n)
+     if n <= 1 then
+         return 1
+     else
+         return n * factorial2(n - 1)
+     end
+ end
 
 print("\n=== Function Examples ===")
 print(greet(name))
 print("5 + 3 = " .. add(5, 3))
 print("Factorial of 5 = " .. factorial(5))
+print("Factorial of 6 = " .. factorial2(6))
+
+print("\n=== Multi-return example: divide(a, b) ===")
+local result, err = divide(10, 2)
+if err then
+    print(err)
+else
+    print("10 / 2 = " .. result)
+end
+
+result, err = divide(10, 0)
+if err then
+    print(err)
+else
+    print("10 / 0 = " .. result)
+end
 
 -- 4. Conditional statements
 print("\n=== Conditional Statement Examples ===")
