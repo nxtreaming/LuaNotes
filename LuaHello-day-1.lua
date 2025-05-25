@@ -3,6 +3,8 @@
 
 print("=== Basic Lua Program Example (Best Practices) ===")
 
+print("\n=== Day 1 of 3 days of Lua ===")
+
 -- 1. Basic output
 print("Hello, Lua!")
 print("Welcome to Lua World!")
