@@ -1,7 +1,7 @@
 -- Basic Lua Program Example (Best Practices Version)
 -- This program demonstrates Lua's main syntax and features with proper coding practices
 
-print("=== Basic Lua Program Example (Best Practices) ===")
+print("=== Basic Lua Program Example ===")
 
 print("\n=== Day 1 of 3 days of Lua ===")
 

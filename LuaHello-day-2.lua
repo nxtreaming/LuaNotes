@@ -1,9 +1,8 @@
-print("=== Basic Lua Program Example (Best Practices) ===")
+print("=== Basic Lua Program Example ===")
 
 print("\n=== Day 2 of 3 days of Lua ===")
 
 -- 1. Closure
-
 local function createCounter()
     local count = 0
     return function()
@@ -48,9 +47,10 @@ for i, v in ipairs(squaredNumbers) do
     print(v)
 end
 
--- 2. metatable example
+-- 2. Metatable example
 local function createPoint(x, y)
     local point = {x = x, y = y}
+
     local mt = {
         __add = function(p1, p2)
             return createPoint(p1.x + p2.x, p1.y + p2.y)
@@ -86,4 +86,50 @@ print("Distance p1 to p2: " .. mt.distance(p1, p2))
 print("Distance p2 to p1: " .. mt.distance(p2, p1))
 print("Distance p1 to p2: " .. p1:distance(p2))
 
+local function createPoint2(x, y)
+    local point = {x = x, y = y}
 
+    local mt = {}
+    function mt.__add(p1, p2)
+        return createPoint2(p1.x + p2.x, p1.y + p2.y)
+    end
+    function mt.__tostring(p)
+        return "(" .. p.x .. ", " .. p.y .. ")"
+    end
+    function mt.__mul(p1, p2)
+        return createPoint2(p1.x * p2.x, p1.y * p2.y)
+    end
+
+    setmetatable(point, mt)
+
+    return point
+end
+
+local point2_1 = createPoint2(3, 4)
+local point2_2 = createPoint2(5, 6)
+local point2_3 = point2_1 + point2_2
+print(point2_3)  -- Output: (8, 10)
+
+-- Inherits of tables
+local Animal = { sound = "..." }
+function Animal:speak() 
+    print(self.sound)
+end
+
+local Dog = {sound = "Woof!"}
+setmetatable(Dog, {__index = Animal})
+
+print("\n=== Inheritance Example ===")
+local dog = Dog
+dog:speak()  -- Output: Woof!
+
+-- Module example
+print("\n=== Module Example ===")
+local m = require("MyModule")
+print(m.add(1, 2))
+print(m.subtract(1, 2))
+m.sayHello()
+
+-- Print and setup the package.path
+print("\n=== package.path ===")
+print(package.path)
