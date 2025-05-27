@@ -133,3 +133,104 @@ m.sayHello()
 -- Print and setup the package.path
 print("\n=== package.path ===")
 print(package.path)
+
+-- OOP example
+local Person  = { }
+Person.__index = Person
+
+function Person:new(name, age)
+    local person = setmetatable({}, self)
+    -- local person = {}
+    person.name = name
+    person.age = age
+    return person
+end
+
+function Person:sayHello()
+    print("Hello, my name is " .. self.name .. " and I am " .. self.age .. " years old.")
+end
+
+print("\n=== OOP Example ===")
+local person = Person:new("John", 25)
+person:sayHello()
+
+local Student = {}
+Student.__index = Student
+setmetatable(Student, {__index = Person})
+
+function Student:new(name, age, school)
+    local s = Person.new(self, name, age)
+    -- the following code is not needed
+    -- setmetatable(s, self)
+    s.school = school
+    return s
+end
+
+-- function Student.sayHello(self)
+function Student:sayHello()
+        print("Hello, my name is " .. self.name .. " and I am " .. self.age .. " years old. I study in " .. self.school .. ".")
+end
+
+print("\n=== OOP Inheritance Example-2 ===")
+local student = Student:new("John", 25, "MIT")
+student:sayHello()
+
+-- tryout-1 : implement complex number, and support addition and tostring
+
+local Complex = {}
+Complex.__index = Complex
+
+function Complex:new(real, imag)
+    local c = setmetatable({}, self)
+    c.real = real
+    c.imag = imag
+    return c
+end
+
+function Complex:__add(other)
+    return Complex:new(self.real + other.real, self.imag + other.imag)
+end
+
+function Complex:__tostring()
+    return self.real .. " + " .. self.imag .. "i"
+end 
+
+print("\n=== Complex Number Example ===")
+local c1 = Complex:new(1, 2)
+local c2 = Complex:new(3, 4)
+local c3 = c1 + c2
+print(c3)
+
+-- implement an Animal class and Dog, Cat classes, and verify the polymorphism
+local NewAnimal = {type = "Generic animal", sound = "..."}
+NewAnimal.__index = NewAnimal
+
+function NewAnimal:new(type, sound)
+    local animal = setmetatable({}, self)
+    animal.type = type
+    animal.sound = sound
+    return animal
+end
+
+function NewAnimal:speak()
+    print("I am a " .. self.type .. " and I say " .. self.sound)
+end
+
+local Dog = {type = "Dog", sound = "Woof!"}
+Dog.__index = Dog
+setmetatable(Dog, {__index = NewAnimal})
+
+function Dog:speak2()
+    print("I am a " .. self.type .. " and I say " .. self.sound .. " " .. self.sound)
+end
+
+local Cat = {type = "Cat", sound = "Meow!"}
+Cat.__index = Cat
+setmetatable(Cat, {__index = NewAnimal})
+
+print("\n=== Animal Example ===")
+local dog = Dog:new("Dog", "Woof!")
+local cat = Cat:new("Cat", "Meow!")
+dog:speak()
+dog:speak2()
+cat:speak()
