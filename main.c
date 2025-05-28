@@ -3,6 +3,13 @@
 #include <lauxlib.h>
 #include <lualib.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#include <limits.h>
+#endif
+
 // Simple error handling function
 void handle_error(lua_State *L, int status) {
     if (status != LUA_OK) {
@@ -57,13 +64,51 @@ int main() {
     lua_pop(L, 1);  // Pop result
     printf("\n");
 
+    // Print current working directory
+    printf("Current working directory: ");
+    #ifdef _WIN32
+    {
+        char buffer[MAX_PATH];
+        GetCurrentDirectory(MAX_PATH, buffer);
+        printf("%s\n", buffer);
+    }
+    #else
+    {
+        char buffer[PATH_MAX];
+        getcwd(buffer, PATH_MAX);
+        printf("%s\n", buffer);
+    }
+    #endif
+    printf("\n");
+
     // Example 3: Load Lua script from file
     printf("Example 3: Loading Lua script from file\n");
-    printf("(Create a file named 'script.lua' with some Lua code)\n");
-    status = luaL_dofile(L, "LuaHello-day-3.lua");
-    if (status != LUA_OK) {
-        printf("Note: script.lua not found or contains errors. This is expected if you haven't created it yet.\n");
-        lua_pop(L, 1);  // Pop error message
+
+    // Try to load script.lua from different possible locations
+    int script_found = 0;
+    const char* script_paths[] = {
+        "script.lua",                     // Current directory
+        "../script.lua",                  // Parent directory
+        "../../script.lua",              // Parent of parent directory
+        NULL                             // End marker
+    };
+
+    for (int i = 0; script_paths[i] != NULL; i++) {
+        printf("Trying to load: %s\n", script_paths[i]);
+        status = luaL_loadfile(L, script_paths[i]);
+        if (status == LUA_OK) {
+            printf("Found script at: %s\n", script_paths[i]);
+            script_found = 1;
+            // Execute the loaded script
+            status = lua_pcall(L, 0, LUA_MULTRET, 0);
+            handle_error(L, status);
+            break;
+        }
+    }
+
+    if (!script_found) {
+        printf("Note: script.lua not found in any of the searched locations.\n");
+        printf("Please create script.lua in one of these directories.\n");
     }
     printf("\n");
 
@@ -73,4 +118,7 @@ int main() {
     printf("Demo completed successfully!\n");
     return 0;
 }
+
+
+
 

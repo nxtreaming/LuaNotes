@@ -27,3 +27,10 @@ if(WIN32)
         $<TARGET_FILE_DIR:clua_demo>
     )
 endif()
+
+# Copy script.lua to output directory
+add_custom_command(TARGET clua_demo POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_SOURCE_DIR}/script.lua"
+    $<TARGET_FILE_DIR:clua_demo>
+)
