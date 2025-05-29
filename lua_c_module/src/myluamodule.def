@@ -1,0 +1,3 @@
+LIBRARY myluamodule
+EXPORTS
+    luaopen_myluamodule

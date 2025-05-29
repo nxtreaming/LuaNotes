@@ -166,6 +166,7 @@ int main() {
     handle_error(L, status);
     printf("\n");
 
+    // Example 5: Using C module from Lua
     printf("Example 5: Using C module from Lua\n");
     const char *lua_code_module = 
         "print('Using C module from Lua:')\n"
