@@ -18,6 +18,37 @@ void handle_error(lua_State *L, int status) {
     }
 }
 
+// Define a C function for Lua to call
+// All C functions callable from Lua must follow this signature: int func(lua_State *L)
+static int c_add(lua_State *L) {
+    // Get arguments (from Lua stack)
+    double a = luaL_checknumber(L, 1);  // First argument
+    double b = luaL_checknumber(L, 2);  // Second argument
+    
+    // Perform calculation
+    double result = a + b;
+    
+    // Push result onto Lua stack (as return value)
+    lua_pushnumber(L, result);
+    
+    // Number of return values
+    return 1;  // We're returning one value
+}
+
+// Define another example C function
+static int c_hello(lua_State *L) {
+    const char *name = luaL_checkstring(L, 1);  // Get string argument
+    printf("Hello, %s from C function!\n", name);
+    return 0;  // No return values
+}
+
+// Define a function list for the module
+static const struct luaL_Reg mylib[] = {
+    {"add", c_add},
+    {"hello", c_hello},
+    {NULL, NULL}  // End of list marker
+};
+
 int main() {
     printf("C Lua Demo - Calling Lua from C\n");
     printf("================================\n\n");
@@ -31,6 +62,17 @@ int main() {
 
     // Load Lua standard libraries
     luaL_openlibs(L);
+
+    // Register C functions to Lua
+    lua_pushcfunction(L, c_add);
+    lua_setglobal(L, "c_add");  // Function name in Lua is "c_add"
+
+    lua_pushcfunction(L, c_hello);
+    lua_setglobal(L, "c_hello");  // Function name in Lua is "c_hello"
+
+    // Create a new module
+    luaL_newlib(L, mylib);
+    lua_setglobal(L, "mylib");  // Module name is "mylib"
 
     // Example 1: Execute simple Lua code
     printf("Example 1: Running Lua code directly\n");
@@ -112,9 +154,34 @@ int main() {
     }
     printf("\n");
 
+    // Example 4: Calling C functions from Lua
+    printf("Example 4: Calling C functions from Lua\n");
+    const char *lua_code_call_c = 
+        "print('Calling C function from Lua:')\n"
+        "local result = c_add(10, 40)\n"
+        "print('Result of c_add(10, 40) =', result)\n"
+        "c_hello('Lua user')\n";
+
+    status = luaL_dostring(L, lua_code_call_c);
+    handle_error(L, status);
+    printf("\n");
+
+    printf("Example 5: Using C module from Lua\n");
+    const char *lua_code_module = 
+        "print('Using C module from Lua:')\n"
+        "local result = mylib.add(30, 40)\n"
+        "print('Result of mylib.add(30, 40) =', result)\n"
+        "mylib.hello('Module user')\n";
+
+    status = luaL_dostring(L, lua_code_module);
+    handle_error(L, status);
+    printf("\n");
+    
     // Close Lua state
     lua_close(L);
     
     printf("Demo completed successfully!\n");
     return 0;
 }
+
+
