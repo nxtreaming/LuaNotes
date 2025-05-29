@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lua-local",
+            "request": "launch",
+            "name": "Debug Lua",
+            "program": {
+                "lua": "D:/lua-5.4.7/bin/lua.exe",
+                "file":"${file}"
+            },
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": true,
+            "args": []
+        },
+        {
+            "name": "Attach to C Module",
+            "type": "cppvsdbg",
+            "request": "attach",
+            "processId": "${command:pickProcess}",
+            "symbolSearchPath": "${workspaceFolder}/lua_c_module/build/Debug"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Lua + C Module",
+            "configurations": ["Debug Lua", "Attach to C Module"]
+        }
+    ]
+}

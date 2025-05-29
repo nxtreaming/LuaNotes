@@ -184,5 +184,3 @@ int main() {
     printf("Demo completed successfully!\n");
     return 0;
 }
-
-

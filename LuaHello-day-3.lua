@@ -1,7 +1,15 @@
 -- This is a simple Lua script that will be loaded by the C program
 print("\n=== Day 3 of 3 days of Lua ===")
 
--- define a table
+-- 1. Error handling
+local ok, err = pcall(function()
+    error("something wrong")
+end)
+if not ok then
+    print("Error:", err)
+end
+
+-- 2. Define a table
 local person = {
     name = "John",
     age = 30,
@@ -10,8 +18,8 @@ local person = {
     end
 }
 
--- call method
+-- Call method
 person:greeting()
 
--- return a value to C program
+-- Return a value to C program
 return "Script executed successfully"
