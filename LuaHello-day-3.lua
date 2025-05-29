@@ -1,9 +1,5 @@
-
 -- This is a simple Lua script that will be loaded by the C program
-
 print("\n=== Day 3 of 3 days of Lua ===")
-
-print("This message is from script.lua")
 
 -- define a table
 local person = {

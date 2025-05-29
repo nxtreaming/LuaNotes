@@ -1,4 +1,3 @@
-
 -- This is a simple Lua script that will be loaded by the C program
 print("This message is from script.lua")
 
