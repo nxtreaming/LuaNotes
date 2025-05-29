@@ -166,7 +166,7 @@ function Student:new(name, age, school)
     return s
 end
 
--- function Student.sayHello(self)
+-- Function Student.sayHello(self)
 function Student:sayHello()
         print("Hello, my name is " .. self.name .. " and I am " .. self.age .. " years old. I study in " .. self.school .. ".")
 end
@@ -175,8 +175,7 @@ print("\n=== OOP Inheritance Example-2 ===")
 local student = Student:new("John", 25, "MIT")
 student:sayHello()
 
--- tryout-1 : implement complex number, and support addition and tostring
-
+-- Tryout: implement complex number, and support addition and tostring
 local Complex = {}
 Complex.__index = Complex
 
@@ -201,7 +200,7 @@ local c2 = Complex:new(3, 4)
 local c3 = c1 + c2
 print(c3)
 
--- implement an Animal class and Dog, Cat classes, and verify the polymorphism
+-- Implement an Animal class and Dog, Cat classes, and verify the polymorphism
 local NewAnimal = {type = "Generic animal", sound = "..."}
 NewAnimal.__index = NewAnimal
 

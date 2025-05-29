@@ -23,6 +23,7 @@ static int module_add(lua_State *L) {
     return 1;
 }
 
+// Function: multiply two numbers
 static int module_multiply(lua_State *L) {
     // Get arguments from Lua stack
     double a = luaL_checknumber(L, 1);
